@@ -1,4 +1,6 @@
+import { LineWeight } from '@mui/icons-material';
 import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
+import { fontWeight } from '@mui/system';
 import React, { useState } from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
@@ -6,11 +8,11 @@ import login from '../../../images/login.png'
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
-    const { user, loginUser, isLoading, error } = useAuth();
+    const { user, loginUser, isLoading, error, signInWithGoogle } = useAuth();
 
     const location = useLocation();
     const history = useHistory();
-    const handleOnChange = e => {
+    const handleOnBlur = e => {
         const field = e.target.name;
         const value = e.target.value;
         const newLoginData = { ...loginData };
@@ -20,6 +22,10 @@ const Login = () => {
     const handleLoginSubmit = e => {
         loginUser(loginData.email, loginData.password, location, history);
         e.preventDefault();
+    }
+
+    const handleGoogleSignIn= ()=>{
+        signInWithGoogle(location, history);
     }
     return (
         <Container>
@@ -34,7 +40,7 @@ const Login = () => {
                             id="standard-basic"
                             label="email"
                             name="email"
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             variant="standard" />
                         <TextField
                             sx={{ width: '75%', m: 1 }}
@@ -42,16 +48,18 @@ const Login = () => {
                             label="password"
                             type="password"
                             name="password"
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             variant="standard" />
                         <Button sx={{ width: '75%', m: 1 }} type="submit" variant="contained">Login</Button>
                         <NavLink style={{ textDecoration: 'none' }} to="/register">
                             <Button variant="text">New user? Please Register</Button>
                         </NavLink>
+                        {isLoading && <CircularProgress />}
+                        {user?.email && <Alert severity="success">Account Creation Successful</Alert>}
+                        {error && <Alert severity="error">{error}</Alert>}
                     </form>
-                    {isLoading && <CircularProgress />}
-                    {user?.email && <Alert severity="success">Account Creation Successful</Alert>}
-                    {error && <Alert severity="error">{error}</Alert>}
+                    <p style={{color:"gray", fontWeight:800}}>___________________________________</p>
+                    <Button onClick={handleGoogleSignIn} sx={{backgroundColor:"orange"}} variant="contained">Sign In With Google</Button>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <NavLink to='/home'>
