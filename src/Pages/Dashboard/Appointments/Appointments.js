@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { NavLink } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const Appointments = ({date}) => {
     const { user, token } = useAuth();
@@ -20,7 +22,7 @@ const Appointments = ({date}) => {
         })
             .then(res => res.json())
             .then(data => setAppointments(data));
-    }, [date])
+    }, [date, user.email, token])
     return (
         <div>
             {appointments.length}
@@ -31,7 +33,7 @@ const Appointments = ({date}) => {
                             <TableCell>Name</TableCell>
                             <TableCell align="right">Time</TableCell>
                             <TableCell align="right">Service</TableCell>
-                            <TableCell align="right">Action(g)</TableCell>
+                            <TableCell align="right">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -45,6 +47,10 @@ const Appointments = ({date}) => {
                                 </TableCell>
                                 <TableCell align="right">{row.time}</TableCell>
                                 <TableCell align="right">{row.serviceName}</TableCell>
+                                <TableCell align="right">{row.time}</TableCell>
+                                <TableCell align="right">{row.payment? 'paid' : 
+                                <NavLink style={{textDecoration: 'none'}} to={`/dashboard/payment/${row._id}`}><Button variant="outlined">Pay</Button></NavLink>
+                                }</TableCell>
                                 
                             </TableRow>
                         ))}
