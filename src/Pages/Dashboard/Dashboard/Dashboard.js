@@ -25,10 +25,11 @@ import {
 import { NavLink } from 'react-router-dom';
 import DashboardHome from '../DashboardHome/DashboardHome';
 import MakeAdmin from '../MakeAdmin/MakeAdmin';
-import AddDoctor from '../AddDoctor/AddDoctor';
+
 import useAuth from '../../../Hooks/useAuth';
 import AdminRoute from '../../Login/AdminRoute/AdminaRoute';
 import Payment from '../Payment/Payment';
+import AddDoctor from '../AddDoctor/AddDoctor';
 
 
 const drawerWidth = 240;
@@ -148,12 +149,13 @@ function Dashboard(props) {
                     <Route path={`${path}/:payment/:appointmentId`}>
                         <Payment></Payment>
                     </Route>
-                    <AdminRoute path={`${path}/:makeAdmin`}>
-                        <MakeAdmin></MakeAdmin>
-                    </AdminRoute>
                     <AdminRoute path={`${path}/:addDoctor`}>
                         <AddDoctor></AddDoctor>
                     </AdminRoute>
+                    <AdminRoute path={`${path}/:makeAdmin`}>
+                        <MakeAdmin></MakeAdmin>
+                    </AdminRoute>
+                    
                 </Switch>
             </Box>
         </Box>
